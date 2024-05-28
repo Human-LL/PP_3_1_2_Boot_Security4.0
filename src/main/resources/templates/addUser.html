@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить пользователя</title>
+</head>
+<body>
+<h2>Добавить пользователя</h2>
+<div>
+    <th:block th:include="menuPage">Menu</th:block>
+</div>
+<div>
+    <form th:action="@{add}"
+          th:object="${user}"
+          method="post">
+        <fieldset>
+            <legend>Данные пользователя</legend>
+            <p>
+                <label for="username">Логин
+                    <input type="text"
+                           name="username"
+                           id="username">
+                </label>
+                <br/>
+                <label for="password">Пароль
+                    <input type="text"
+                           name="password"
+                           id="password">
+                </label>
+                <br/>
+                <label for="email">Почтовый ящик
+                    <input type="text"
+                           name="email"
+                           id="email">
+                </label>
+                <br/>
+                <label for="firstName">Имя
+                    <input type="text"
+                           name="firstName"
+                           id="firstName">
+                </label>
+                <br/>
+                <label for="lastName">Фамилия
+                    <input type="text"
+                           name="lastName"
+                           id="lastName">
+                </label>
+                <br/>
+                <label>
+                    <input type="checkbox"
+                           name="roleAdmin"
+                           value="ROLE_ADMIN"
+                           th:text="Администратор">
+                </label>
+            </p>
+        </fieldset>
+        <button type="submit">Сохранить пользователя</button>
+    </form>
+    <br/>
+    <form th:action="@{/admin/all}">
+        <button type="submit">Назад к списку пользователей</button>
+    </form>
+</div>
+</body>
+</html>

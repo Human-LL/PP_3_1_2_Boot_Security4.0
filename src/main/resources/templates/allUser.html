@@ -11,7 +11,6 @@
 </div>
 <div>
     <table>
-
         <tbody>
         <tr th:each="user : ${users}">
             <td th:text="${user.getId()}">Id</td>
@@ -21,8 +20,8 @@
             <td th:text="${user.getFirstName()}">Имя</td>
             <td th:text="${user.getLastName()}">Фамилия</td>
             <td>
-                <div th:each="role: ${user.getRoles()}">
-                    <span th:if="(${role.getName()} == 'ROLE_ADMIN')" th:utext="Администратор"></span>
+                <div th:each="role: ${user.roles}">
+                    <span th:if="${role.name eq 'ROLE_ADMIN'}" th:utext="Администратор"></span>
                 </div>
             </td>
             <td>

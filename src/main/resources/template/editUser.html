@@ -42,6 +42,13 @@
                  value="ROLE_ADMIN"
                  th:text="Администратор">
         </label>
+        <label>
+          <input type="checkbox"
+                 name="roleUser"
+                 checked="${roleUser}"
+                 value="ROLE_USER"
+                 th:text="Пользователь">
+        </label>
       </p>
     </fieldset>
     <button type="submit">Изменить данные</button>

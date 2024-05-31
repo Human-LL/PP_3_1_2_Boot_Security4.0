@@ -1,23 +1,28 @@
 package ru.kata.spring.boot_security.demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepo;
+import ru.kata.spring.boot_security.demo.repository.RoleRepo;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 
 import java.util.List;
 
 @Service
-@Transactional
 public class RoleServiceImpl implements RoleService {
 
     private RoleRepo roleRepository;
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public void setRoleRepository(RoleRepo roleRepository) {
         this.roleRepository = roleRepository;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -37,6 +42,16 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Role getDefaultRole() {
-        return roleRepository.getDefaultRole();
+        Role userRole = roleRepository.getRoleByName("USER");
+        if (userRole == null) {
+            userRole = new Role();
+            userRole.setName("USER");
+        }
+        return userRole;
+    }
+
+    @Override
+    public void addRole(Role role) {
+        roleRepository.addRole(role);
     }
 }

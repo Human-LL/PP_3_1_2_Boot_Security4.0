@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AdminController {
 
     private final UserService userService;
+
     private final RoleService roleService;
 
     @Autowired
@@ -49,8 +50,8 @@ public class AdminController {
 
     @PostMapping(value = "/admin/add")
     public String postAddUser(@ModelAttribute("user") User user,
-                              @RequestParam(required=false) String roleAdmin,
-                              @RequestParam(required=false) String roleUser) {
+                              @RequestParam(required = false) String roleAdmin,
+                              @RequestParam(required = false) String roleUser) {
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.getRoleByName("ROLE_USER"));
 
@@ -67,28 +68,33 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping(value = "/admin/edit/{id}")
+
+    @GetMapping("/admin/edit/{id}")
     public String editUser(@PathVariable("id") Long id, Model model) {
         User user = userService.getUserById(id);
-        Set<Role> roles = user.getRoles();
 
-        for (Role role : roles) {
-            if (role.equals(roleService.getRoleByName("ROLE_ADMIN"))) {
-                model.addAttribute("roleAdmin", true);
-            }
-            if (role.equals(roleService.getRoleByName("ROLE_USER"))) {
-                model.addAttribute("roleUser", true);
+        boolean isAdmin = false;
+        boolean isUser = false;
+
+        for (Role role : user.getRoles()) {
+            if (role.getName().equals("ROLE_ADMIN")) {
+                isAdmin = true;
+            } else if (role.getName().equals("ROLE_USER")) {
+                isUser = true;
             }
         }
 
+        model.addAttribute("roleAdmin", isAdmin);
+        model.addAttribute("roleUser", isUser);
         model.addAttribute("user", user);
+
         return "editUser";
     }
 
     @PostMapping(value = "/admin/edit")
     public String postEditUser(@ModelAttribute("user") User user,
-                               @RequestParam(required=false) String roleAdmin,
-                               @RequestParam(required=false) String roleUser) {
+                               @RequestParam(required = false) String roleAdmin,
+                               @RequestParam(required = false) String roleUser) {
         Set<Role> roles = new HashSet<>();
         roles.add(roleService.getRoleByName("ROLE_USER"));
 

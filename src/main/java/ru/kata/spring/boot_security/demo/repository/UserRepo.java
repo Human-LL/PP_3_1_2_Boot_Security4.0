@@ -1,5 +1,6 @@
-package ru.kata.spring.boot_security.demo.repositories;
+package ru.kata.spring.boot_security.demo.repository;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface UserRepo {
     void deleteUser(Long id);
 
     void editUser(User user);
+
 }

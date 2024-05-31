@@ -10,6 +10,7 @@ import java.util.List;
 
 @Controller
 public class HelloController {
+
     @GetMapping(value = "/")
     public String printWelcome(ModelMap model) {
         List<String> messages = new ArrayList<>();
@@ -24,13 +25,4 @@ public class HelloController {
         return "loginPage";
     }
 
-    @GetMapping(value = "vip")
-    public String getVipPage(Model model) {
-        List<String> messages = new ArrayList<>();
-        messages.add("Hello!");
-        messages.add("I'm Spring MVC-SECURITY application");
-        messages.add("This is VIP Page");
-        model.addAttribute("messages", messages);
-        return "userPage";
-    }
 }

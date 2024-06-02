@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 
@@ -115,5 +117,10 @@ public class AdminController {
         Long id = Long.parseLong(request.getParameter("id"));
         userService.deleteUser(id);
         return "redirect:/admin";
+    }
+    @PostMapping("/admin/users")
+    @ResponseBody
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
     }
 }

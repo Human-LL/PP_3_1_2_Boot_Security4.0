@@ -13,21 +13,21 @@
         <thead>
         <tr>
             <th>Id</th>
-            <th>Login</th>
-            <th>Password</th>
-            <th>Почта</th>
             <th>Имя</th>
             <th>Фамилия</th>
+            <th>Почта</th>
+            <th>Пароль</th>
+
+
         </tr>
         </thead>
         <tbody>
         <tr>
             <td th:text="${user.getId()}">Id</td>
-            <td th:text="${user.getUsername()}">Логин</td>
-            <td th:text="${user.getPassword()}">Пароль</td>
-            <td th:text="${user.getEmail()}">Почта</td>
-            <td th:text="${user.getFirstName()}">Имя</td>
+            <td th:text="${user.getUsername()}">Имя</td>
             <td th:text="${user.getLastName()}">Фамилия</td>
+            <td th:text="${user.getEmail()}">Почта</td>
+            <td th:text="${user.getPassword()}">Пароль</td>
         </tr>
         </tbody>
     </table>

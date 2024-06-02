@@ -38,10 +38,10 @@ public class Init implements ApplicationRunner {
         Set<Role> rolesUser = new HashSet<>(Arrays.asList(roleUser));
         Set<Role> rolesAdmin = new HashSet<>(Arrays.asList(roleAdmin));
 
-        User user1 = new User("user", passwordEncoder.encode("user"), "User", "User", "user@example.com", rolesUser);
+        User user1 = new User("user", passwordEncoder.encode("user"), "User", "user@example.com", rolesUser);
         userService.addUser(user1);
 
-        User user2 = new User("admin", passwordEncoder.encode("admin"), "Admin", "Admin", "admin@example.com", rolesAdmin);
+        User user2 = new User("admin", passwordEncoder.encode("admin"), "Admin", "admin@example.com", rolesAdmin);
         userService.addUser(user2);
     }
 

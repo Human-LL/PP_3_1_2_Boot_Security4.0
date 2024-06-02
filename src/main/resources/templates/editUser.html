@@ -11,28 +11,24 @@
 <h2>Изменить пользователя</h2>
 <div>
   <form th:action="@{/admin/edit}" th:object="${user}" method="post">
-    <input type="hidden" name="id" th:value="${user.getId()}">
+    <input type="hidden" name="id" th:value="${user.getId}">
     <fieldset>
       <legend>Данные пользователя</legend>
       <p>
-        <label for="username">Логин
-          <input type="text" name="username" id="username" th:value="${user.getUsername()}">
-        </label>
-        <br/>
-        <label for="password">Пароль
-          <input type="text" name="password" id="password" th:value="${user.getPassword()}">
-        </label>
-        <br/>
-        <label for="email">Почтовый ящик
-          <input type="text" name="email" id="email" th:value="${user.getEmail()}">
-        </label>
-        <br/>
         <label for="username">Имя
-          <input type="text" name="firstName" id="firstName" th:value="${user.getFirstName()}">
+          <input type="text" name="username" id="username" th:value="${user.getUsername}">
         </label>
         <br/>
         <label for="lastName">Фамилия
-          <input type="text" name="lastName" id="lastName" th:value="${user.getLastName()}">
+          <input type="text" name="lastName" id="lastName" th:value="${user.getLastName}">
+        </label>
+        <br/>
+        <label for="email">Почта
+          <input type="text" name="email" id="email" th:value="${user.getEmail}">
+        </label>
+        <br/>
+        <label for="password">Пароль
+          <input type="text" name="password" id="password" th:value="${user.getPassword}">
         </label>
         <br/>
         <label>

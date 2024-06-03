@@ -1,13 +1,10 @@
 package ru.kata.spring.boot_security.demo.model;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,64 +16,97 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
-@ToString
+@Table(name = "user")
 @Getter
 @Setter
-@EqualsAndHashCode
-public class User implements Serializable, UserDetails {
+public class User implements UserDetails {
 
+    // Первичный ключ
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
-    @NotEmpty(message = "Name should not be empty")
-    @Size(min = 2, max = 10, message = "Username length must be between 2 and 10 characters")
-    @Column(name = "username", unique = true)
-    private String username;
+    // Имя пользователя
+    @NotEmpty(message = "Имя не должно быть пустым")
+    @Size(min = 2, max = 10, message = "Длина имени должна быть от 2 до 10 символов")
+    @Column(name = "name")
+    private String name;
 
-    @NotEmpty(message = "The password field must not be empty")
-    @Size(min = 6, max = 18, message = "The password must be at least 6 and no more than 18 characters")
+    // Пароль пользователя
+    @Setter
+    @Getter
+    @NotEmpty(message = "Поле пароля не должно быть пустым")
     @Column(name = "password")
     private String password;
 
-    @NotEmpty(message = "Please provide a last name")
-    @Column(name = "last_name")
-    private String lastName;
+    // Фамилия пользователя
+    @Setter
+    @Getter
+    @NotEmpty(message = "Пожалуйста, укажите фамилию")
+    @Column(name = "surname")
+    private String surname;
 
-    @NotEmpty(message = "Email should not be empty")
-    @Email(message = "Email should be valid")
+    // Возраст пользователя
+    @Setter
+    @Getter
+    @Min(value = 0, message = "Возраст должен быть больше 0")
+    @Column(name = "age")
+    private int age;
+
+    // Email пользователя
+    @Setter
+    @Getter
     @Column(name = "email")
+    @NotEmpty(message = "Email не должен быть пустым")
+    @Email
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
-    @JoinTable(name = "users_roles",
+    // Роли пользователя
+    @Setter
+    @Getter
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
+    // Конструктор без параметров
     public User() {
     }
 
-    public User(String username, String password, String lastName, String email, Set<Role> roles) {
-        this.username = username;
+    // Конструктор с основными полями
+    public User(String name, String password, String surname, int age) {
+        this.name = name;
         this.password = password;
-        this.lastName = lastName;
-        this.email = email;
-        this.roles = roles;
+        this.surname = surname;
+        this.age = age;
     }
 
+    // Конструктор со всеми полями, включая email
+    public User(String name, String password, String surname, int age, String email) {
+        this.name = name;
+        this.password = password;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+    }
+
+    // Методы интерфейса UserDetails
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
+    }
+
+    @Override
+    public String getUsername() {
+        return name;
     }
 
     @Override
@@ -99,11 +129,17 @@ public class User implements Serializable, UserDetails {
         return true;
     }
 
+    // Метод toString для представления объекта User в виде строки
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(lastName, user.lastName) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles);
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }
